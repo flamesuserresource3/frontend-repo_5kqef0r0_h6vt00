@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Send } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function Contact() {
   const [name, setName] = useState('');
@@ -11,24 +12,28 @@ export default function Contact() {
   )}&body=${encodeURIComponent(message)}%0A%0AFrom:%20${encodeURIComponent(email)}`;
 
   return (
-    <section id="contact" className="relative py-24 bg-slate-950 text-white">
+    <section id="contact" className="relative py-28 bg-slate-950 text-white">
       <div className="container mx-auto px-6 max-w-3xl">
         <div className="mb-8 flex items-center gap-3">
           <div className="h-10 w-10 rounded-full bg-teal-400/20 flex items-center justify-center">
             <Mail className="text-teal-300" size={20} />
           </div>
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold">Get in touch</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">Get in touch</h2>
             <p className="text-slate-300 mt-1">Have a project in mind? I’d love to hear about it.</p>
           </div>
         </div>
 
-        <form
+        <motion.form
           onSubmit={(e) => {
             e.preventDefault();
             window.location.href = mailto;
           }}
           className="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-4"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.45, ease: 'easeOut' }}
         >
           <div>
             <label className="block text-sm text-slate-300 mb-1" htmlFor="name">Name</label>
@@ -69,7 +74,7 @@ export default function Contact() {
             Send Message
             <Send size={18} />
           </button>
-        </form>
+        </motion.form>
 
         <p className="mt-6 text-center text-slate-400 text-sm">
           Or email me directly at <a href="mailto:hello@example.com" className="text-teal-300 hover:text-teal-200">hello@example.com</a>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ExternalLink, Code2, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const projects = [
   {
@@ -31,29 +32,50 @@ const Tag = ({ label }) => (
   </span>
 );
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20, scale: 0.98 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } },
+};
+
 export default function Projects() {
   return (
-    <section id="projects" className="relative py-24 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+    <section id="projects" className="relative py-28 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[36rem] h-[36rem] rounded-full bg-teal-500/10 blur-3xl" />
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[42rem] h-[42rem] rounded-full bg-teal-500/10 blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto px-6 max-w-7xl">
         <div className="mb-12 flex items-center gap-3">
           <div className="h-10 w-10 rounded-full bg-teal-400/20 flex items-center justify-center">
             <Sparkles className="text-teal-300" size={20} />
           </div>
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold">Selected Projects</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">Selected Projects</h2>
             <p className="text-slate-300 mt-1">A few things I loved crafting recently.</p>
           </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {projects.map((p) => (
-            <article
+            <motion.article
               key={p.title}
-              className="group relative rounded-2xl border border-white/10 bg-white/5 p-6 overflow-hidden hover:border-white/20 transition-all"
+              variants={item}
+              className="group relative rounded-2xl border border-white/10 bg-white/5 p-6 overflow-hidden hover:border-white/20 transition-all will-change-transform"
+              whileHover={{ y: -4 }}
             >
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-br from-teal-400/10 to-indigo-400/10" />
 
@@ -79,9 +101,9 @@ export default function Projects() {
                 View project
                 <ExternalLink size={16} />
               </a>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
